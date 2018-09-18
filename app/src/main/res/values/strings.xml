@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">LocationTest</string>
+    <string name="maps">Maps</string>
+    <string name="data">Data</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="weather">Weather</string>
+    <string name="city">City</string>
+
+    <!--Weather-->
+    <string name="pressure">Pressure </string>
+    <string name="humidity">Humidity </string>
+    <string name="sunrise_time">Sunrise</string>
+    <string name="sunset_time">Sunset</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="presssure">Pressure…</string>
+    <string name="wind_speed_humidity">Wind speed…\nHumidity…</string>
+    <string name="openWeatherMap_not_working">OpenWeatherMap.org not working…</string>
+
+
+</resources>

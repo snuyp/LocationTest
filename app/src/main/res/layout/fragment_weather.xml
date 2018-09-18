@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/open_weather_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/weather_name_t"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8d333333"
+            android:gravity="center_horizontal"
+            android:text="Minsk"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8d333333"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/weather_wind_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="5"
+                android:gravity="start"
+                android:text="@string/wind_speed_humidity"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                />
+
+            <ImageView
+                android:id="@+id/weather_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                app:srcCompat="@drawable/ic_wb_sunny_white_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8d333333"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/weather_pressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="5"
+                android:gravity="start"
+                android:text="@string/presssure"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:id="@+id/weather_sunrise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:gravity="center_horizontal"
+                android:text="Sunrise,sunset"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
