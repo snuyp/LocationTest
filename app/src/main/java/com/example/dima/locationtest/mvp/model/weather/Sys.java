@@ -4,9 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Dima on 06.04.2018.
- */
 
 public class Sys {
     private Integer type;

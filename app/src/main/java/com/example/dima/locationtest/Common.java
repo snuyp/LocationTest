@@ -1,7 +1,7 @@
 package com.example.dima.locationtest;
 
 import com.example.dima.locationtest.remote.WeatherClient;
-import com.example.dima.locationtest.remote.WeatherService;
+import com.example.dima.locationtest.Interface.WeatherService;
 
 public class Common {
     public static final int PERMISSIONS_REQUEST_CODE = 100;

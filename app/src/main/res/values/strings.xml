@@ -16,6 +16,7 @@
     <string name="presssure">Pressure…</string>
     <string name="wind_speed_humidity">Wind speed…\nHumidity…</string>
     <string name="openWeatherMap_not_working">OpenWeatherMap.org not working…</string>
+    <string name="your_coordinates">Your coordinates:</string>
 
 
 </resources>

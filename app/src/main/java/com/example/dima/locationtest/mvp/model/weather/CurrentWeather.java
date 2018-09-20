@@ -2,9 +2,6 @@ package com.example.dima.locationtest.mvp.model.weather;
 
 import java.util.List;
 
-/**
- * Created by Dima on 06.04.2018.
- */
 
 public class CurrentWeather {
     private Coord coord;

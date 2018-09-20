@@ -50,7 +50,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_weather,container,false);
         locationPresenter.setFusedLocationProvider(getActivity());
-        //locationTextView = v.findViewById(R.id.location);
+        locationTextView = v.findViewById(R.id.coords);
 
         //Weather
         cityTemp = v.findViewById(R.id.weather_name_t);
@@ -58,6 +58,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
         sun = v.findViewById(R.id.weather_sunrise);
         pressure = v.findViewById(R.id.weather_pressure);
         weatherImage = v.findViewById(R.id.weather_image);
+
 
         return v;
     }
@@ -81,10 +82,10 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     public void setUpLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(getActivity(), new String[]{
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION}, Common.PERMISSIONS_REQUEST_CODE);
+
         } else {
             locationPresenter.buildLocationCallback();
             locationPresenter.createLocationRequest();
@@ -95,7 +96,6 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     public void displayLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
         }
         else
         {
@@ -105,9 +105,17 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
 
     @Override
     public void getLocation(Location location) {
-        String cords = String.valueOf(location.getLongitude()+" "+location.getLatitude());
-//        locationTextView.setText(cords);
+        String cords = String.valueOf(getResources().getString(R.string.your_coordinates)
+                +" "+location.getLatitude()
+                +" / "+location.getLongitude());
+        locationTextView.setText(cords);
         weatherPresenter.loadWeather(location.getLatitude(),location.getLongitude());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 
     @Override

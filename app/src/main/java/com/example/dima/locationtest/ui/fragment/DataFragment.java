@@ -3,14 +3,26 @@ package com.example.dima.locationtest.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.example.dima.locationtest.R;
+import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.mvp.view.CashView;
+import com.example.dima.locationtest.ui.adapter.ListAdapter;
 
-public class DataFragment extends MvpAppCompatFragment {
+import java.util.List;
+
+public class DataFragment extends MvpAppCompatFragment implements CashView {
+
+
+    private RecyclerView lstNews;
+    private RecyclerView.LayoutManager layoutManager;
+    private ListAdapter adapter;
 
     public static DataFragment fragment;
 
@@ -30,7 +42,24 @@ public class DataFragment extends MvpAppCompatFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_data,container,false);
+
+        lstNews = v.findViewById(R.id.recycler_view);
+        lstNews.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        lstNews.setLayoutManager(layoutManager);
+
         return v;
+
+    }
+
+    @Override
+    public void weatherView(List<DataCash> cashList) {
+        adapter = new ListAdapter(cashList);
+        lstNews.setAdapter(adapter);
+    }
+
+    @Override
+    public void error() {
 
     }
 }

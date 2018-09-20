@@ -3,9 +3,6 @@ package com.example.dima.locationtest.mvp.model.weather;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Dima on 06.04.2018.
- */
 
 public class Main {
     @SerializedName("temp")

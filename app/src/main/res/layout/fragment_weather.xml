@@ -4,10 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/image_weather"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sky_light"/>
     <LinearLayout
         android:id="@+id/open_weather_forecast"
         android:layout_width="match_parent"
+        android:background="#8d333333"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -15,17 +25,22 @@
             android:id="@+id/weather_name_t"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8d333333"
             android:gravity="center_horizontal"
             android:text="Minsk"
             android:textColor="@android:color/white"
-            android:textSize="30sp"
+            android:textSize="25sp"
             />
+        <TextView
+            android:id="@+id/coords"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/your_coordinates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8d333333"
             android:orientation="horizontal">
 
             <TextView
@@ -52,7 +67,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8d333333"
             android:orientation="horizontal"
             >
 
@@ -80,5 +94,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
