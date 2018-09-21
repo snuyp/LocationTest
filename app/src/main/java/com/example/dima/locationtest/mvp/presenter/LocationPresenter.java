@@ -15,6 +15,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.regex.Pattern;
+
 @InjectViewState
 public class LocationPresenter extends MvpPresenter<SetUpLocationView> {
     private static final int UPDATE_INTERVAL = 5000;
@@ -26,14 +28,12 @@ public class LocationPresenter extends MvpPresenter<SetUpLocationView> {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
 
-
-
     public void setFusedLocationProvider(Context context) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         getViewState().setUpLocation();
     }
 
-    public void createLocationRequest() {
+    private void createLocationRequest() {
         locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(UPDATE_INTERVAL);
@@ -41,7 +41,7 @@ public class LocationPresenter extends MvpPresenter<SetUpLocationView> {
         locationRequest.setSmallestDisplacement(DISPLACEMENT);
     }
 
-    public void buildLocationCallback() {
+    private void buildLocationCallback() {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -49,8 +49,14 @@ public class LocationPresenter extends MvpPresenter<SetUpLocationView> {
                 onDisplayLastLocation();
             }
         };
-    }
 
+    }
+    public void buildLocation()
+    {
+        buildLocationCallback();
+        createLocationRequest();
+        onDisplayLastLocation();
+    }
 
     @SuppressLint("MissingPermission")
     public void onDisplayLastLocation() {
@@ -58,6 +64,7 @@ public class LocationPresenter extends MvpPresenter<SetUpLocationView> {
             @Override
             public void onSuccess(Location location) {
                 lastLocation = location;
+                closeLocation();
             }
         });
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
@@ -65,9 +72,10 @@ public class LocationPresenter extends MvpPresenter<SetUpLocationView> {
             getViewState().getLocation(lastLocation);
             closeLocation();
         }
+
     }
 
-    private void closeLocation() {
+    public void closeLocation() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 }

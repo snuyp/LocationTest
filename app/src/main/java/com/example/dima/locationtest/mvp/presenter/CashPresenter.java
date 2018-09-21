@@ -11,16 +11,17 @@ import java.util.List;
 
 @InjectViewState
 public class CashPresenter extends MvpPresenter<CashView> {
+    private List<DataCash> dataCashes;
+    {
+        try {
+            dataCashes = HelperFactory.getHelper().getDataCashDAO().getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void getCash()
     {
-        try {
-           List<DataCash> dataCashes =  HelperFactory.getHelper().getDataCashDAO().getAll();
            getViewState().weatherView(dataCashes);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            getViewState().error();
-        }
-
     }
 }

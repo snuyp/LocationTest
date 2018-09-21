@@ -11,6 +11,7 @@ import com.example.dima.locationtest.mvp.view.WeatherView;
 import com.example.dima.locationtest.Interface.WeatherService;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +34,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
                     //add to bd
                     WeatherData weatherData = new WeatherData(cw.getName(),cw.getMain().getStringTemp(),cw.getWind().getSpeed(),cw.getMain().getHumidity(),cw.getMain().getPressure(),cw.getSys().getSunset(),cw.getSys().getSunrise(),cw.getWeather().get(0).getIcon());
-                    DataCash dataCash = new DataCash(lat,lon,weatherData);
+                    DataCash dataCash = new DataCash(lat,lon);
+                    dataCash.setWeatherData(weatherData);
+                    dataCash.setDate(new Date());
 
                     try {
                         HelperFactory.getHelper().getDataCashDAO().create(dataCash);
@@ -41,6 +44,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                    getViewState().dialogDismiss();
                     getViewState().weatherView(cw);
                 }
                 else
@@ -51,7 +55,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
             @Override
             public void onFailure(Call<CurrentWeather> call, Throwable t) {
-
+                getViewState().error();
             }
         });
     }

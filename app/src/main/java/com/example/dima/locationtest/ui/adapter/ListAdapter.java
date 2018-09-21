@@ -7,27 +7,35 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.dima.locationtest.Interface.ItemClickListener;
 import com.example.dima.locationtest.R;
 import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.ui.WeatherActivity;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 
 class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     ItemClickListener itemClickListener;
 
     TextView city,coords,time;
-
+    ImageView imageView;
+    SimpleDateFormat sdf = new SimpleDateFormat("E dd.MM.yyyy '[' HH:mm:ss ']'" ,new Locale("en","US"));
 
     public ListViewHolder(View itemView) {
         super(itemView);
         city = itemView.findViewById(R.id.city);
         coords = itemView.findViewById(R.id.coords);
         time = itemView.findViewById(R.id.date);
+        imageView = itemView.findViewById(R.id.image);
         itemView.setOnClickListener(this);
     }
 
@@ -45,11 +53,10 @@ class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 }
 
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
-    private List<DataCash> articleList;
-    private Context context;
+    private List<DataCash> cashList;
 
-    public ListAdapter(List<DataCash> articleList) {
-        this.articleList = articleList;
+    public ListAdapter(List<DataCash> cashList) {
+        this.cashList = cashList;
         notifyDataSetChanged();
     }
 
@@ -63,17 +70,28 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
+        holder.city.setText(cashList.get(position).getWeatherData().getCity());
+        String coords = cashList.get(position).getLatitude()+" / "+ cashList.get(position).getLongitude();
+        holder.coords.setText("["+coords+"]");
+        String date =  holder.sdf.format(cashList.get(position).getDate());
+        holder.time.setText(date);
+
+        Glide.with(holder.itemView.getContext())
+                .load(cashList.get(position).getWeatherData().getIcon())
+                .into(holder.imageView);
 
             holder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
-
+                    Intent intent = new Intent(holder.itemView.getContext(), WeatherActivity.class);
+                    intent.putExtra("weather", cashList.get(position));
+                    holder.itemView.getContext().startActivity(intent);
                 }
             });
     }
 
     @Override
     public int getItemCount() {
-        return articleList.size();
+        return cashList.size();
     }
 }

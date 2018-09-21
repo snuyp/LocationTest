@@ -3,20 +3,19 @@ package com.example.dima.locationtest.mvp.model.weather.db;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import static com.example.dima.locationtest.mvp.model.weather.db.WeatherData.WEATHER_DATA_FIELD_NAME;
 
 @DatabaseTable(tableName = WEATHER_DATA_FIELD_NAME)
-public class WeatherData {
+
+public class WeatherData implements Serializable{
     public final static String WEATHER_DATA_FIELD_NAME = "weather_data";
 
     @DatabaseField(generatedId = true)
     private long id;
-
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
-    private DataCash data;
 
     @DatabaseField
     private String city;
@@ -63,14 +62,6 @@ public class WeatherData {
 
     public void setPressure(String pressure) {
         this.pressure = pressure;
-    }
-
-    public DataCash getData() {
-        return data;
-    }
-
-    public void setData(DataCash data) {
-        this.data = data;
     }
 
     public String getCity() {

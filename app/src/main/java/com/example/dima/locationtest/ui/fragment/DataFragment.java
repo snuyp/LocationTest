@@ -10,15 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.dima.locationtest.R;
 import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.mvp.presenter.CashPresenter;
 import com.example.dima.locationtest.mvp.view.CashView;
 import com.example.dima.locationtest.ui.adapter.ListAdapter;
 
 import java.util.List;
 
-public class DataFragment extends MvpAppCompatFragment implements CashView {
+import es.dmoral.toasty.Toasty;
 
+public class DataFragment extends MvpAppCompatFragment implements CashView {
+    @InjectPresenter
+    CashPresenter cashPresenter;
 
     private RecyclerView lstNews;
     private RecyclerView.LayoutManager layoutManager;
@@ -48,6 +53,7 @@ public class DataFragment extends MvpAppCompatFragment implements CashView {
         layoutManager = new LinearLayoutManager(getContext());
         lstNews.setLayoutManager(layoutManager);
 
+        cashPresenter.getCash();
         return v;
 
     }
@@ -60,6 +66,6 @@ public class DataFragment extends MvpAppCompatFragment implements CashView {
 
     @Override
     public void error() {
-
+        Toasty.error(getContext(),"Error").show();
     }
 }

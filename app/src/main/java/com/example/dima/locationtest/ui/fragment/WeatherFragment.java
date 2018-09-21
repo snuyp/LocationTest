@@ -24,6 +24,9 @@ import com.example.dima.locationtest.mvp.presenter.WeatherPresenter;
 import com.example.dima.locationtest.mvp.view.SetUpLocationView;
 import com.example.dima.locationtest.mvp.view.WeatherView;
 
+import dmax.dialog.SpotsDialog;
+import es.dmoral.toasty.Toasty;
+
 public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocationView,WeatherView {
     @InjectPresenter
     LocationPresenter locationPresenter;
@@ -33,6 +36,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     private TextView cityTemp, sun, windSpeedHumidity, pressure;
     private ImageView weatherImage;
     private TextView locationTextView;
+    private SpotsDialog dialog;
+
     public static WeatherFragment fragment;
     public static WeatherFragment getInstance() {
         if (fragment == null) {
@@ -58,6 +63,9 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
         sun = v.findViewById(R.id.weather_sunrise);
         pressure = v.findViewById(R.id.weather_pressure);
         weatherImage = v.findViewById(R.id.weather_image);
+        dialog = new SpotsDialog(getContext());
+
+        locationPresenter.buildLocation();
 
 
         return v;
@@ -72,9 +80,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
                             Manifest.permission.ACCESS_FINE_LOCATION},
                     Common.PERMISSIONS_REQUEST_CODE);
         } else {
-            locationPresenter.buildLocationCallback();
-            locationPresenter.createLocationRequest();
-            locationPresenter.onDisplayLastLocation();
+            locationPresenter.buildLocation();
         }
 
     }
@@ -87,9 +93,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
                     Manifest.permission.ACCESS_FINE_LOCATION}, Common.PERMISSIONS_REQUEST_CODE);
 
         } else {
-            locationPresenter.buildLocationCallback();
-            locationPresenter.createLocationRequest();
-            locationPresenter.onDisplayLastLocation();
+            locationPresenter.buildLocation();
         }
     }
     @Override
@@ -115,7 +119,12 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        locationPresenter.closeLocation();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -140,16 +149,16 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
 
     @Override
     public void dialogShow() {
-
+        dialog.show();
     }
 
     @Override
     public void dialogDismiss() {
-
+        dialog.dismiss();
     }
 
     @Override
     public void error() {
-
+        Toasty.error(getContext(),"Error").show();
     }
 }
