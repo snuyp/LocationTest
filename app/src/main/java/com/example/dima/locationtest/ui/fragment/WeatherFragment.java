@@ -19,17 +19,18 @@ import com.bumptech.glide.Glide;
 import com.example.dima.locationtest.Common;
 import com.example.dima.locationtest.R;
 import com.example.dima.locationtest.mvp.model.weather.CurrentWeather;
-import com.example.dima.locationtest.mvp.presenter.LocationPresenter;
 import com.example.dima.locationtest.mvp.presenter.WeatherPresenter;
-import com.example.dima.locationtest.mvp.view.SetUpLocationView;
 import com.example.dima.locationtest.mvp.view.WeatherView;
+
+import java.util.regex.Pattern;
 
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 
-public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocationView,WeatherView {
-    @InjectPresenter
-    LocationPresenter locationPresenter;
+public class WeatherFragment extends MvpAppCompatFragment implements WeatherView {
+
     @InjectPresenter
     WeatherPresenter weatherPresenter;
 
@@ -37,14 +38,16 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     private ImageView weatherImage;
     private TextView locationTextView;
     private SpotsDialog dialog;
-
+    private String cords;
     public static WeatherFragment fragment;
+
     public static WeatherFragment getInstance() {
         if (fragment == null) {
             fragment = new WeatherFragment();
         }
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +56,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_weather,container,false);
-        locationPresenter.setFusedLocationProvider(getActivity());
+        View v = inflater.inflate(R.layout.fragment_weather, container, false);
+        setUpLocation();
         locationTextView = v.findViewById(R.id.coords);
 
         //Weather
@@ -65,61 +68,47 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
         weatherImage = v.findViewById(R.id.weather_image);
         dialog = new SpotsDialog(getContext());
 
-        locationPresenter.buildLocation();
-
+        setCoordinates();
 
         return v;
     }
+    public void setCoordinates()
+    {
+        if (Common.lat == 0 && Common.lon == 0) {
+            SmartLocation.with(getActivity()).location()
+                    .oneFix()
+                    .start(new OnLocationUpdatedListener() {
+                        @Override
+                        public void onLocationUpdated(Location location) {
+                            Common.lat = location.getLatitude();
+                            Common.lon = location.getLongitude();
+                            weatherPresenter.loadWeather(location.getLatitude(),location.getLongitude());
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION},
-                    Common.PERMISSIONS_REQUEST_CODE);
-        } else {
-            locationPresenter.buildLocation();
-        }
-
-    }
-    @Override
-    public void setUpLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION}, Common.PERMISSIONS_REQUEST_CODE);
-
-        } else {
-            locationPresenter.buildLocation();
-        }
-    }
-    @Override
-    public void displayLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            cords = String.valueOf(getResources().getString(R.string.your_coordinates)
+                                    + " " + Common.lat
+                                    + " / " + Common.lon);
+                            locationTextView.setText(cords);
+                        }
+                    });
         }
         else
         {
-            locationPresenter.onDisplayLastLocation();
+            weatherPresenter.loadWeather(Common.lat,Common.lon);
         }
     }
 
-    @Override
-    public void getLocation(Location location) {
-        String cords = String.valueOf(getResources().getString(R.string.your_coordinates)
-                +" "+location.getLatitude()
-                +" / "+location.getLongitude());
-        locationTextView.setText(cords);
-        weatherPresenter.loadWeather(location.getLatitude(),location.getLongitude());
-    }
+    //for example Reverse geocoding
+//        SmartLocation.with(context).geocoding()
+//                .reverse(location, new OnReverseGeocodingListener() {
+//                    @Override
+//                    public onAddressResolved(Location original, List<Address> results) {
+//                        // ...
+//                    }
+//                });
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        locationPresenter.closeLocation();
     }
 
     @Override
@@ -159,6 +148,34 @@ public class WeatherFragment extends MvpAppCompatFragment implements SetUpLocati
 
     @Override
     public void error() {
-        Toasty.error(getContext(),"Error").show();
+        Toasty.error(getContext(), "Error").show();
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    Common.PERMISSIONS_REQUEST_CODE);
+        } else {
+
+        }
+
+    }
+
+    public void setUpLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, Common.PERMISSIONS_REQUEST_CODE);
+
+        } else {
+
+        }
+    }
+
 }

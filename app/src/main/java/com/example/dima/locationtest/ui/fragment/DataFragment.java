@@ -54,8 +54,8 @@ public class DataFragment extends MvpAppCompatFragment implements CashView {
         lstNews.setLayoutManager(layoutManager);
 
         cashPresenter.getCash();
-        return v;
 
+        return v;
     }
 
     @Override

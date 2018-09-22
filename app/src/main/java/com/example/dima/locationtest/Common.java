@@ -9,7 +9,8 @@ public class Common {
     private static final String BASE_WEATHER_URL = "http://api.openweathermap.org/data/2.5/";
     public static final String WEATHER_API_KEY = "414028c19422cc451a324493b5df909b";
     public static String units = "metric";
-
+    public static double lat;
+    public static double lon;
 
     public static WeatherService getWeatherService()
     {

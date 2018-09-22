@@ -55,4 +55,10 @@ dependencies {
 
     //OrmLite
     implementation 'com.j256.ormlite:ormlite-android:4.48'
+
+    //Location
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
+
+    ///CheckPermission
+    implementation 'com.karumi:dexter:5.0.0'
 }

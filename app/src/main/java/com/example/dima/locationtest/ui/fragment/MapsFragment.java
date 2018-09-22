@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.example.dima.locationtest.Common;
 import com.example.dima.locationtest.R;
+import com.example.dima.locationtest.mvp.model.weather.dao.HelperFactory;
+import com.example.dima.locationtest.mvp.model.weather.db.DataCache;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -22,6 +24,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class MapsFragment extends MvpAppCompatFragment implements OnMapReadyCallback {
 
@@ -63,7 +68,6 @@ public class MapsFragment extends MvpAppCompatFragment implements OnMapReadyCall
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
     }
 
     @Override
@@ -80,14 +84,30 @@ public class MapsFragment extends MvpAppCompatFragment implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(minsk).title("Hello Minsk!"));
 
         CameraPosition cameraPosition = CameraPosition.builder().
-                target(minsk).zoom(5).bearing(0).build();
+                target(minsk).zoom(10).bearing(0).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         addMarker();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mMapView.onDestroy();
+    }
+
     private void addMarker()
     {
+        try {
+          List<DataCache> dataCaches =  HelperFactory.getHelper().getDataCashDAO().getAll();
 
+          for(DataCache cache : dataCaches)
+          {
+              LatLng latLng = new LatLng(cache.getLatitude(),cache.getLongitude());
+              mMap.addMarker(new MarkerOptions().position(latLng).title(cache.getDate().toString())).isVisible();
+          }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
