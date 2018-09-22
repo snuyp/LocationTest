@@ -17,7 +17,7 @@
 ![Image alt](https://github.com/snuyp/LocationTest/blob/master/Screenshot_20180922-175700.png) 
 ![Image alt](https://github.com/snuyp/LocationTest/blob/master/Screenshot_20180922-175730.png)
 ![Image alt](https://github.com/snuyp/LocationTest/blob/master/Screenshot_20180922-175801.png)
-### Delete
+### Delete (Long click)
 ![Image alt](https://github.com/snuyp/LocationTest/blob/master/Screenshot_20180922-175812.png)
 ### Cache
 ![Image alt](https://github.com/snuyp/LocationTest/blob/master/Screenshot_20180922-175750.png)
