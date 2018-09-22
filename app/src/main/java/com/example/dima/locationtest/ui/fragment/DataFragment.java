@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.dima.locationtest.R;
-import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.mvp.model.weather.db.DataCache;
 import com.example.dima.locationtest.mvp.presenter.CashPresenter;
 import com.example.dima.locationtest.mvp.view.CashView;
 import com.example.dima.locationtest.ui.adapter.ListAdapter;
@@ -59,7 +59,7 @@ public class DataFragment extends MvpAppCompatFragment implements CashView {
     }
 
     @Override
-    public void weatherView(List<DataCash> cashList) {
+    public void weatherView(List<DataCache> cashList) {
         adapter = new ListAdapter(cashList);
         lstNews.setAdapter(adapter);
     }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.mvp.model.weather.db.DataCache;
 import com.example.dima.locationtest.mvp.model.weather.db.WeatherData;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -27,7 +27,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, DataCash.class);
+            TableUtils.createTable(connectionSource, DataCache.class);
             TableUtils.createTable(connectionSource, WeatherData.class);
         } catch (SQLException e) {
             Log.e(TAG, "error creating DB " + DATABASE_NAME);
@@ -38,7 +38,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, DataCash.class, true);
+            TableUtils.dropTable(connectionSource, DataCache.class, true);
             TableUtils.dropTable(connectionSource, WeatherData.class,true);
         } catch (SQLException e) {
             e.printStackTrace();

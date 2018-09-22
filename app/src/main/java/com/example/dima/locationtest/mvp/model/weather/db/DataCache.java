@@ -5,13 +5,12 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.dima.locationtest.mvp.model.weather.db.DataCash.DATA_FIELD_NAME;
+import static com.example.dima.locationtest.mvp.model.weather.db.DataCache.DATA_FIELD_NAME;
 
-@DatabaseTable(tableName = DATA_FIELD_NAME, daoClass = DataCash.class)
-public class DataCash implements Serializable{
+@DatabaseTable(tableName = DATA_FIELD_NAME, daoClass = DataCache.class)
+public class DataCache implements Serializable{
     public final static String DATA_FIELD_NAME = "data";
 
     @DatabaseField(generatedId = true)
@@ -28,17 +27,17 @@ public class DataCash implements Serializable{
     private Date date;
 
 
-    public DataCash() {
+    public DataCache() {
     }
 
-    public DataCash(double latitude, double longitude, WeatherData weatherData) {
+    public DataCache(double latitude, double longitude, WeatherData weatherData) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.weatherData = weatherData;
         date = new Date();
     }
 
-    public DataCash(double lat, double lon) {
+    public DataCache(double lat, double lon) {
         this.latitude = lat;
         this.longitude = lon;
     }

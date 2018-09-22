@@ -5,7 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.example.dima.locationtest.Common;
 import com.example.dima.locationtest.mvp.model.weather.CurrentWeather;
 import com.example.dima.locationtest.mvp.model.weather.dao.HelperFactory;
-import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.mvp.model.weather.db.DataCache;
 import com.example.dima.locationtest.mvp.model.weather.db.WeatherData;
 import com.example.dima.locationtest.mvp.view.WeatherView;
 import com.example.dima.locationtest.Interface.WeatherService;
@@ -34,12 +34,12 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
                     //add to bd
                     WeatherData weatherData = new WeatherData(cw.getName(),cw.getMain().getStringTemp(),cw.getWind().getSpeed(),cw.getMain().getHumidity(),cw.getMain().getPressure(),cw.getSys().getSunset(),cw.getSys().getSunrise(),cw.getWeather().get(0).getIcon());
-                    DataCash dataCash = new DataCash(lat,lon);
-                    dataCash.setWeatherData(weatherData);
-                    dataCash.setDate(new Date());
+                    DataCache dataCache = new DataCache(lat,lon);
+                    dataCache.setWeatherData(weatherData);
+                    dataCache.setDate(new Date());
 
                     try {
-                        HelperFactory.getHelper().getDataCashDAO().create(dataCash);
+                        HelperFactory.getHelper().getDataCashDAO().create(dataCache);
 
                     } catch (SQLException e) {
                         e.printStackTrace();

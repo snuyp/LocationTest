@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.dima.locationtest.R;
 import com.example.dima.locationtest.ui.fragment.DataFragment;
+import com.example.dima.locationtest.ui.fragment.MapsFragment;
 import com.example.dima.locationtest.ui.fragment.WeatherFragment;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
@@ -26,6 +27,8 @@ public class FragmentAdapter extends FragmentPagerAdapter {
                 return WeatherFragment.getInstance();
             case 1:
                 return DataFragment.getInstance();
+            case 2:
+                return MapsFragment.getInstance();
         }
         return null;
     }
@@ -38,6 +41,8 @@ public class FragmentAdapter extends FragmentPagerAdapter {
                 return context.getString(R.string.weather);
             case 1:
                 return context.getString(R.string.data);
+            case 2:
+                return context.getString(R.string.maps);
         }
         return "";
     }
@@ -45,6 +50,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

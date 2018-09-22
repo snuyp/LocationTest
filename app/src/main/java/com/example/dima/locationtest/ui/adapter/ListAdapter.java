@@ -1,6 +1,5 @@
 package com.example.dima.locationtest.ui.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.dima.locationtest.Interface.ItemClickListener;
 import com.example.dima.locationtest.R;
-import com.example.dima.locationtest.mvp.model.weather.db.DataCash;
+import com.example.dima.locationtest.mvp.model.weather.db.DataCache;
 import com.example.dima.locationtest.ui.WeatherActivity;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -53,9 +51,9 @@ class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 }
 
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
-    private List<DataCash> cashList;
+    private List<DataCache> cashList;
 
-    public ListAdapter(List<DataCash> cashList) {
+    public ListAdapter(List<DataCache> cashList) {
         this.cashList = cashList;
         notifyDataSetChanged();
     }
