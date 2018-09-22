@@ -94,6 +94,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         else
         {
             weatherPresenter.loadWeather(Common.lat,Common.lon);
+            locationTextView.setText(cords);
         }
     }
 

@@ -29,7 +29,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     private CurrentWeather cw;
 
     public void loadWeather(final double lat, final double lon) {
-        if (cw == null)
+        if (cw == null) {
             getViewState().dialogShow();
             weatherService.getToday(lat, lon, Common.units, Common.WEATHER_API_KEY).enqueue(new Callback<CurrentWeather>() {
                 @Override
@@ -61,5 +61,6 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().error();
                 }
             });
+        }
     }
 }
